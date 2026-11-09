@@ -1,0 +1,2 @@
+import {randomBytes,createCipheriv,createDecipheriv} from 'node:crypto';
+export function testKeyring(){const master=randomBytes(32);return{wrapKey:async text=>{const iv=randomBytes(12),c=createCipheriv('aes-256-gcm',master,iv),bytes=Buffer.concat([c.update(text),c.final()]);return Buffer.concat([iv,c.getAuthTag(),bytes]);},unwrapKey:async bytes=>{const d=createDecipheriv('aes-256-gcm',master,bytes.subarray(0,12));d.setAuthTag(bytes.subarray(12,28));return Buffer.concat([d.update(bytes.subarray(28)),d.final()]).toString();}};}

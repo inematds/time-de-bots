@@ -1,0 +1,11 @@
+Quero o Time de Bots numa VPS Ubuntu 24.04 ou mais nova, ligado 24 h e acessado só por túnel SSH.
+
+Eu já entrei no servidor por SSH com um usuário comum que tem sudo (não root). Clone https://github.com/inematds/time-de-bots.git em ~/time-de-bots (o serviço espera esse caminho). Leia README.md e todos os arquivos de kit/vps/ antes de agir.
+
+Rode kit/vps/instalar-vps.sh e me mostre o resultado. Não abra nenhuma porta no firewall e não troque nada para 0.0.0.0: VNC e navegador devem ficar em 127.0.0.1.
+
+Pare e me peça para fazer o login da conta (claude, ou codex login --device-auth). Eu faço; não peça token.
+
+Depois ligue a primeira instância com kit/vps/nova-instancia.sh principal 1 e me mostre o comando de túnel que ele imprime. Confira com ss -ltn que as portas estão só em 127.0.0.1 e com systemctl --user is-active que o serviço está ativo.
+
+No fim, entregue: comando de túnel, endereço para abrir no navegador, como ligar um segundo time (nova-instancia.sh trabalho 2), como desligar (systemctl --user disable --now time-de-bots@principal) e o que não foi testado.

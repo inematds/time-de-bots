@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Time de Bots — seus bots no computador e na VPS, pela sua assinatura</title>
+<meta name="description" content="Kit gratuito do INEMA que instala um painel de bots no Linux, no Mac ou numa VPS. Cada bot tem papel, memória e tarefas agendadas, e responde pela sua assinatura do Claude ou do Codex, sem chave de API.">
+<link rel="alternate" hreflang="pt-BR" href="https://inematds.github.io/time-de-bots/guia/">
+<link rel="alternate" hreflang="en" href="https://inematds.github.io/time-de-bots/guia/en/">
+<link rel="alternate" hreflang="es" href="https://inematds.github.io/time-de-bots/guia/es/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0c10; --bg2:#14141b; --card:#16161e; --line:#272730;
+    --txt:#e9e9ee; --mut:#9a9aa6; --amb:#FACC15; --amb2:#f0c070; --sky:#38bdf8; --pro:#cbd5e1;
+    --ambs:rgba(250,204,21,.12); --bad:#f87171;
+    color-scheme:dark;
+  }
+  body.light{
+    --bg:#f6f7f9; --bg2:#eceef2; --card:#ffffff; --line:#e1e3ea;
+    --txt:#1a1a22; --mut:#5b5b68; --amb:#a16207; --amb2:#a16207; --sky:#0369a1; --pro:#b45309;
+    --ambs:rgba(250,204,21,.22); --bad:#b91c1c;
+    color-scheme:light;
+  }
+  body.light .hero .glow{opacity:.5}
+  body.light pre,body.light .prompt{background:#0e0e14;color:#d6d6e0}
+  body.light pre .c{color:#8a8a98}
+  body.light nav{background:rgba(246,247,249,.85)}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.65 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:Sora,sans-serif;line-height:1.15;margin:0}
+  a{color:var(--amb);text-decoration:none}
+  code,pre{font-family:"JetBrains Mono",monospace}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 22px}
+  .mut{color:var(--mut)} .amb{color:var(--amb)}
+  .chip{display:inline-block;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amb);font-weight:600;font-family:Sora}
+  nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(12px);background:rgba(12,12,16,.78);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:22px;height:60px}
+  nav .brand{display:flex;align-items:center;gap:8px;font-family:Sora;font-weight:800;letter-spacing:-.02em;color:var(--amb);white-space:nowrap}
+  nav .brand .emoji{font-size:1.25rem}
+  nav .sep{color:var(--mut);opacity:.45}
+  nav .inema{color:var(--sky);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .inema:hover{filter:brightness(1.15)}
+  nav .pro{color:var(--pro);font-weight:600;font-size:.88rem;font-family:Sora}
+  nav .pro:hover{filter:brightness(1.15)}
+  nav .clubpro{display:inline-flex;align-items:center;gap:6px}
+  nav .links{margin-left:auto;display:flex;align-items:center;gap:18px;font-size:.92rem}
+  nav .links a.sec{color:var(--mut)} nav .links a.sec:hover{color:var(--txt)}
+  .lang{display:inline-flex;gap:2px;font-family:Sora;font-size:.78rem}
+  .lang a{color:var(--mut);padding:.2em .45em;border-radius:6px} .lang a.on{color:var(--amb);background:var(--ambs)}
+  .tgl{background:var(--bg2);border:1px solid var(--line);color:var(--txt);width:38px;height:38px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:1.05rem}
+  .tgl:hover{border-color:var(--amb)}
+  .btn{display:inline-block;background:#FACC15;color:#1a1206;font-weight:600;padding:.6em 1.05em;border-radius:10px;font-family:Sora}
+  .btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+  @media(max-width:980px){nav .links a.sec{display:none}}
+  @media(max-width:520px){nav .wrap{gap:8px;padding:8px 14px;height:auto;flex-wrap:wrap} nav .links{gap:8px;margin-left:0;width:100%;justify-content:space-between} nav .btn{padding:.45em .7em;font-size:.82rem} .tgl{width:34px;height:34px}}
+  .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+  .hero .glow{position:absolute;inset:-40% -20% auto auto;width:70%;height:600px;background:radial-gradient(closest-side,rgba(250,204,21,.18),transparent 70%);pointer-events:none}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:74px 22px}
+  .hero h1{font-size:clamp(2.2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.025em}
+  .hero p.lead{font-size:1.18rem;color:var(--mut);margin:1.1em 0 1.6em;max-width:34ch}
+  .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .hero figure{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -30px #000}
+  .hero figure img{width:100%;height:auto;display:block}
+  .resumo{padding:38px 0 34px;border-bottom:1px solid var(--line)}
+  .resumo p{font-size:1.12rem;line-height:1.7;max-width:74ch;margin:.55em 0 0}
+  @media(max-width:780px){.hero .wrap{grid-template-columns:1fr;padding:48px 22px}}
+  section{padding:62px 0;border-bottom:1px solid var(--line)}
+  section h2{font-size:clamp(1.5rem,3.4vw,2.1rem);font-weight:800;letter-spacing:-.02em}
+  section .sub{color:var(--mut);margin:.6em 0 2em;max-width:62ch}
+  .grid{display:grid;gap:16px}
+  .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+  @media(max-width:820px){.g3,.g4{grid-template-columns:1fr 1fr}}
+  @media(max-width:540px){.g2,.g3,.g4{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .card h3{font-size:1.05rem;margin-bottom:.4em}
+  .card p{color:var(--mut);font-size:.95rem;margin:0}
+  .card p+p{margin-top:.6em}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+  .flow span{background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:.45em .9em;font-size:.85rem;font-family:Sora;font-weight:600}
+  .flow .arr{color:var(--amb);border:none;background:none;padding:0 .1em}
+  pre{background:#0a0a0e;border:1px solid var(--line);border-radius:12px;padding:16px 18px;overflow:auto;font-size:.86rem;line-height:1.6;color:#d6d6e0;margin:.4em 0 0}
+  pre .c{color:#7d7d8a} pre .k{color:var(--amb2)} pre .s{color:#9ece6a}
+  body.light pre .k{color:#f0c070}
+  .step{display:grid;grid-template-columns:46px minmax(0,1fr);gap:16px;margin-bottom:26px}
+  .step>div,.card{min-width:0}
+  p code,li code,td code,h3 code{overflow-wrap:anywhere;font-size:.9em;background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:.05em .35em}
+  .step .b{width:46px;height:46px;border-radius:12px;background:#FACC15;color:#1a1206;font-family:Sora;font-weight:800;font-size:1.25rem;display:flex;align-items:center;justify-content:center}
+  .step h3{font-size:1.12rem;margin-bottom:.3em}
+  .step p{color:var(--mut);margin:.2em 0 .7em}
+  h3.parte{font-size:1.25rem;margin:38px 0 18px;padding-top:6px;border-top:1px dashed var(--line)}
+  h3.parte:first-of-type{margin-top:0;border:none}
+  .ex figure{margin:0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+  .ex figure img{width:100%;height:auto;display:block}
+  .ex figcaption{padding:12px 14px;font-size:.9rem;color:var(--mut);background:var(--card)}
+  .tbl{width:100%;border-collapse:collapse;font-size:.95rem}
+  .tblw{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+  .tbl th,.tbl td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  .tbl th{font-family:Sora;font-size:.85rem;color:var(--mut);background:var(--bg2)}
+  .tbl tr:last-child td{border-bottom:none}
+  .ok{font-weight:600}
+  .no{font-weight:700;color:var(--bad)}
+  .pbox{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:18px}
+  .pbox .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+  .pbox h3{font-size:1.05rem}
+  .pbox .quando{color:var(--mut);font-size:.92rem;margin:0 0 10px}
+  .prompt{background:#0a0a0e;border:1px solid var(--line);border-radius:12px;padding:16px 18px;font-size:.9rem;line-height:1.6;color:#d6d6e0;white-space:pre-wrap;font-family:Inter,system-ui,sans-serif;margin:0}
+  .copy{background:var(--bg2);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:.45em .9em;font-family:Sora;font-weight:600;font-size:.85rem;cursor:pointer}
+  .copy:hover{border-color:var(--amb)}
+  .copy.feito{border-color:var(--amb);color:var(--amb)}
+  .copy.cpre{margin-top:8px;padding:.3em .8em;font-size:.8rem}
+  .faq details{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:14px 18px;margin-bottom:12px}
+  .faq summary{cursor:pointer;font-family:Sora;font-weight:600}
+  .faq details p{color:var(--mut);margin:.7em 0 0}
+  .nota{color:var(--mut);font-size:.92rem;margin-top:14px}
+  footer{padding:46px 0;text-align:center;color:var(--mut);font-size:.9rem}
+  .pill{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.3em .8em;font-size:.78rem;color:var(--mut);margin:4px}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="#top"><span class="emoji">🤝</span> Time de Bots</a>
+  <span class="sep">|</span>
+  <span class="clubpro">
+    <a class="inema" href="https://inema.club" target="_blank" rel="noopener">INEMA.CLUB</a>
+    <span class="sep">-</span>
+    <a class="pro" href="https://inema.pro" target="_blank" rel="noopener">PRO</a>
+  </span>
+  <div class="links">
+    <a class="sec" href="#oque">O que é</a>
+    <a class="sec" href="#fluxo">Como funciona</a>
+    <a class="sec" href="#guia">Guia de uso</a>
+    <a class="sec" href="#prompts">Prompts</a>
+    <a class="sec" href="#testado">Testado</a>
+    <a class="sec" href="#faq">FAQ</a>
+    <span class="lang"><a class="on" href="./">PT</a><a href="en/">EN</a><a href="es/">ES</a></span>
+    <button class="tgl" id="themeToggle" aria-label="Alternar tema" title="Alternar tema">🌙</button>
+    <a class="btn" href="https://github.com/inematds/time-de-bots" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div>
+      <span class="chip">Kit gratuito · Linux, Mac e VPS</span>
+      <h1>Seu time de <span class="amb">bots</span>, pela sua assinatura</h1>
+      <p class="lead">Um painel com bots que têm papel, memória e tarefas agendadas. As respostas vêm do seu login do Claude ou do Codex, sem chave de API.</p>
+      <div class="cta">
+        <a class="btn" href="#guia">Começar o guia</a>
+        <a class="btn ghost" href="https://github.com/inematds/time-de-bots" target="_blank" rel="noopener">Ver no GitHub</a>
+      </div>
+    </div>
+    <figure><img src="assets/banner.jpg" alt="Banner Time de Bots: seus bots pela sua assinatura, no computador ou numa VPS"></figure>
+  </div>
+</header>
+
+<section id="resumo" class="resumo"><div class="wrap">
+  <span class="chip">Em resumo</span>
+  <p>O Time de Bots é um kit gratuito do INEMA que instala um painel de bots no seu computador Linux ou Mac, ou numa VPS (um servidor alugado na internet). Cada bot tem nome, avatar, papel, memória e tarefas agendadas, e você conversa com um de cada vez ou com vários em grupo. As respostas vêm da sua assinatura do Claude ou do Codex, pelo login normal do programa oficial, sem chave de API e sem cobrança por uso. Precisa de Node.js 22 ou mais novo e de uma conta Claude ou ChatGPT com Codex.</p>
+</div></section>
+
+<section id="oque"><div class="wrap">
+  <span class="chip">O que é</span>
+  <h2>Um app de bots + um kit que instala, confere e liga</h2>
+  <p class="sub">O app de bots é um programa de computador (feito em Electron, licença MIT). O kit do INEMA põe esse app para funcionar do jeito certo: instala, roda os testes, abre vários times e monta o modo servidor.</p>
+  <figure style="margin:0 0 26px;border-radius:16px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -30px #000"><img src="assets/banner-grade.jpg" alt="Bots com papel, memória, tarefas agendadas, conversa em grupo, vários times e VPS por túnel SSH" loading="lazy" style="width:100%;display:block"></figure>
+  <div class="grid g3">
+    <div class="card"><h3>🔑 Só a sua assinatura</h3><p>O app aceita só o login <code>claude.ai</code> do Claude Code ou o login do Codex. O <code>kit/iniciar.sh</code> tira as chaves de API do ambiente antes de abrir.</p></div>
+    <div class="card"><h3>🧑‍🤝‍🧑 Bots com papel</h3><p>Cada bot tem nome, avatar, instruções, memória e tarefas agendadas. Converse com um ou chame vários juntos num grupo.</p></div>
+    <div class="card"><h3>🗂️ Vários times</h3><p>Cada instância é um time separado, com bots, conversas e memória próprios. Ex.: um pessoal e um de trabalho na mesma máquina.</p></div>
+  </div>
+</div></section>
+
+<section id="fluxo"><div class="wrap">
+  <span class="chip">Como funciona</span>
+  <h2>Da sua assinatura até o grupo de bots</h2>
+  <p class="sub">Você entra na sua conta uma vez, no terminal. O app usa esse login para responder. Os bots ficam no painel, conversam sozinhos ou em grupo e rodam tarefas no horário marcado.</p>
+  <div class="flow">
+    <span>Sua assinatura Claude ou Codex</span><span class="arr">→</span>
+    <span>Login no terminal (claude / codex login)</span><span class="arr">→</span>
+    <span>App Time de Bots</span><span class="arr">→</span>
+    <span>Bots · grupo · agenda</span>
+  </div>
+  <div class="grid g2" style="margin-top:26px">
+    <div class="card"><h3>💻 No seu computador</h3><p>O app abre numa janela, como qualquer programa. Os dados de cada time ficam em <code>~/.local/share/time-de-bots/&lt;instância&gt;</code>.</p></div>
+    <div class="card"><h3>🖥️ Numa VPS, por túnel SSH</h3><p>O servidor cria uma tela virtual e mostra o app no navegador (noVNC), tudo preso em <code>127.0.0.1</code>. Você abre um túnel SSH do seu computador e acessa em <code>http://localhost:6081/vnc.html</code>. Nenhuma porta fica aberta para a internet.</p></div>
+  </div>
+</div></section>
+
+<section id="jeitos"><div class="wrap">
+  <span class="chip">3 jeitos de usar</span>
+  <h2>Escolha onde o seu time vai morar</h2>
+  <p class="sub">Dá para começar no computador e depois levar para a VPS. Os três usam o mesmo kit.</p>
+  <div class="grid g3">
+    <div class="card"><h3>💻 No seu computador</h3><p>Linux ou Mac, para quem quer os bots à mão. Testado no Linux; o Mac ainda não foi testado.</p><pre><span class="k">kit/iniciar.sh</span></pre></div>
+    <div class="card"><h3>🗂️ Outro time na mesma máquina</h3><p>Para separar pessoal e trabalho, ou um time por cliente.</p><pre><span class="k">kit/iniciar.sh --instancia trabalho</span></pre></div>
+    <div class="card"><h3>🖥️ Numa VPS</h3><p>Bots e tarefas agendadas ligados 24 h, acessados de qualquer lugar.</p><pre><span class="k">kit/vps/nova-instancia.sh principal 1</span></pre></div>
+  </div>
+</div></section>
+
+<section id="pre"><div class="wrap">
+  <span class="chip">Pré-requisitos</span>
+  <h2>O que precisa ter antes</h2>
+  <p class="sub">O <code>kit/instalar.sh</code> confere tudo isso e avisa o que falta.</p>
+  <div class="grid g3">
+    <div class="card"><h3>Node.js 22+ e npm</h3><p>Baixe em nodejs.org. Confira a versão:</p><pre><span class="k">node --version</span>   <span class="c"># v22 ou mais</span></pre></div>
+    <div class="card"><h3>Claude Code ou Codex</h3><p>Uma conta Claude (assinatura) ou ChatGPT com Codex, e o programa oficial instalado. Claude Code: <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">guia de instalação</a>.</p><pre><span class="k">npm i -g @openai/codex</span>   <span class="c"># se for usar o Codex</span></pre></div>
+    <div class="card"><h3>Git</h3><p>Para baixar o kit e atualizar depois. Na VPS: Ubuntu 24.04 ou mais novo e um usuário comum com sudo (não root).</p><pre><span class="k">git --version</span></pre></div>
+  </div>
+</div></section>
+
+<section id="guia"><div class="wrap">
+  <span class="chip">Guia de uso · passo a passo</span>
+  <h2>Do zero ao primeiro bot</h2>
+  <p class="sub">Comandos reais do kit. Rode no terminal, na pasta do kit. Prefere que o assistente faça por você? Pule para os <a href="#prompts">prompts prontos</a>.</p>
+
+  <h3 class="parte">No seu computador</h3>
+
+  <div class="step"><div class="b">1</div><div>
+    <h3>Baixe o kit</h3>
+    <p>Clona o repositório e entra na pasta.</p>
+<pre><span class="k">git clone https://github.com/inematds/time-de-bots.git &amp;&amp; cd time-de-bots</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">2</div><div>
+    <h3>Instale e rode os testes</h3>
+    <p>Confere Node e npm, instala as dependências, baixa os arquivos do app (conferidos por checksum) e roda os 193 testes. Não entra em conta nenhuma.</p>
+<pre><span class="k">kit/instalar.sh</span>   <span class="c"># no fim: "[ok]  193 testes passaram"</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">3</div><div>
+    <h3>Entre na sua conta (uma vez)</h3>
+    <p>Você mesmo faz o login no terminal. O comando <code>claude</code> abre o Claude Code: na primeira vez ele pede para entrar na sua conta; depois de entrar, saia com <code>/exit</code>. Ainda não tem o Claude Code? Veja o <a href="https://code.claude.com/docs/en/setup" target="_blank" rel="noopener">guia de instalação</a>. Use um dos dois:</p>
+<pre><span class="k">claude</span>         <span class="c"># entre com a sua conta Claude</span>
+<span class="k">codex login</span>    <span class="c"># ou entre com a sua conta do Codex</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">4</div><div>
+    <h3>Confira uma resposta real</h3>
+    <p>Usa o mesmo código do app e o login do Claude Code para pedir uma resposta de verdade (modelo haiku, o mais leve). Grava o resultado em <code>kit/verificacao/ultima-resposta.json</code>. Este teste é só para o Claude.</p>
+<pre><span class="k">node kit/scripts/conferir-resposta.mjs</span>   <span class="c"># "Login do Claude: OK (assinatura claude.ai)"</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">5</div><div>
+    <h3>Abra o app</h3>
+    <p>Abre a instância "principal". No Linux, se aparecer o aviso de sandbox desligado, o app funciona assim mesmo; veja como ligar em <a href="https://github.com/inematds/time-de-bots/blob/main/kit/COMO-LIGAR-SANDBOX.md" target="_blank" rel="noopener">COMO-LIGAR-SANDBOX.md</a>.</p>
+<pre><span class="k">kit/iniciar.sh</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">6</div><div>
+    <h3>Escolha o provedor e crie o primeiro bot</h3>
+    <p>No app, vá em <strong>Settings → AI subscription</strong>, escolha Claude ou Codex e crie o primeiro bot no botão <strong>+</strong>. O app já vem com um bot "Assistente" que responde em português.</p>
+  </div></div>
+
+  <div class="step"><div class="b">7</div><div>
+    <h3>(Opcional) Abra um segundo time</h3>
+    <p>Instância é uma cópia separada do app, com bots, conversas e memória próprios. O nome aceita letras, números, <code>-</code> e <code>_</code>.</p>
+<pre><span class="k">kit/iniciar.sh --instancia trabalho</span>   <span class="c"># dados em ~/.local/share/time-de-bots/trabalho</span></pre>
+  </div></div>
+
+  <h3 class="parte">Numa VPS (ligado 24 h)</h3>
+
+  <div class="step"><div class="b">8</div><div>
+    <h3>Baixe o kit em <code>~/time-de-bots</code></h3>
+    <p>Entre no servidor por SSH com um usuário comum que tenha sudo (não root). O serviço espera o kit exatamente nesta pasta.</p>
+<pre><span class="k">git clone https://github.com/inematds/time-de-bots.git ~/time-de-bots &amp;&amp; cd ~/time-de-bots</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">9</div><div>
+    <h3>Prepare o servidor</h3>
+    <p>Instala a tela virtual, o VNC e o noVNC (programas que mostram essa tela no seu navegador) e as bibliotecas do app (com sudo), instala o Node 22 se faltar, deixa os serviços rodando depois que você sai do SSH e roda o <code>kit/instalar.sh</code>. Não abre nenhuma porta no firewall. Na VPS, o sandbox também é ligado à parte, com os comandos de <a href="#cuidados">Cuidados</a>.</p>
+<pre><span class="k">kit/vps/instalar-vps.sh</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">10</div><div>
+    <h3>Entre na sua conta pelo SSH</h3>
+    <p>No servidor não há navegador; no Codex, use o login por código de dispositivo.</p>
+<pre><span class="k">claude</span>                       <span class="c"># conta Claude</span>
+<span class="k">codex login --device-auth</span>    <span class="c"># ou conta do Codex</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">11</div><div>
+    <h3>Ligue a primeira instância</h3>
+    <p>Cria o serviço <code>time-de-bots@principal</code>, que sobe sozinho e reinicia se cair (até 2 GB de memória por instância). No fim, imprime o comando do túnel.</p>
+<pre><span class="k">kit/vps/nova-instancia.sh principal 1</span>   <span class="c"># tela :21, VNC 5921, navegador 6081</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">12</div><div>
+    <h3>Abra pelo navegador, via túnel</h3>
+    <p>O túnel SSH leva uma porta do servidor até o seu computador por dentro da conexão SSH, sem abrir nada para a internet. No <strong>seu</strong> computador, copie o comando que o <code>nova-instancia.sh</code> imprimiu (ou troque <code>usuario@servidor</code> pelo seu usuário e o IP da VPS) e deixe o terminal aberto. Depois, no navegador, entre no endereço e clique em <strong>Connect</strong>.</p>
+<pre><span class="k">ssh -N -L 6081:127.0.0.1:6081 usuario@servidor</span>
+<span class="c"># no navegador:</span>
+<span class="s">http://localhost:6081/vnc.html</span></pre>
+  </div></div>
+
+  <div class="step"><div class="b">13</div><div>
+    <h3>(Opcional) Segundo time na VPS, ou desligar</h3>
+    <p>O número (1 a 50) define a tela e as portas: com 2, o navegador fica na porta 6082.</p>
+<pre><span class="k">kit/vps/nova-instancia.sh trabalho 2</span>                <span class="c"># túnel e navegador na porta 6082</span>
+<span class="k">systemctl --user disable --now time-de-bots@principal</span>   <span class="c"># desliga uma instância</span></pre>
+  </div></div>
+
+  <div class="ex" style="margin-top:12px">
+    <figure><img src="assets/app-vps.jpg" alt="Tela do app Time de Bots em tema claro, aberta na VPS pelo navegador, com o bot Assistente" loading="lazy"><figcaption>Print real: o app aberto numa VPS, pelo navegador via túnel SSH (tema claro), com o bot inicial "Assistente".</figcaption></figure>
+  </div>
+</div></section>
+
+<section id="prompts"><div class="wrap">
+  <span class="chip">Prompts prontos</span>
+  <h2>Peça para o assistente fazer por você</h2>
+  <p class="sub">Cole no Claude Code ou no Codex. Os mesmos textos estão em <a href="https://github.com/inematds/time-de-bots/tree/main/kit/prompts" target="_blank" rel="noopener"><code>kit/prompts/</code></a>. O login continua sendo seu: o assistente para e espera você entrar na conta.</p>
+
+  <div class="pbox">
+    <div class="top"><h3>1 · Instalar e conferir neste computador</h3><button class="copy" data-alvo="p1">Copiar</button></div>
+    <p class="quando">Instala, roda os testes, confere a resposta real e abre uma instância descartável.</p>
+    <div class="prompt" id="p1">Quero instalar e conferir o Time de Bots neste computador. O kit está na pasta atual (se não estiver, clone https://github.com/inematds/time-de-bots.git numa pasta nova).
+
+Leia README.md, kit/instalar.sh e kit/iniciar.sh antes de agir. Descubra meu sistema e arquitetura (uname -sm). Confira Node.js 22+ e npm; se faltar, me diga como instalar e espere.
+
+Rode kit/instalar.sh e me mostre quantos testes passaram. Não use chave de API: quero usar minha assinatura do Claude ou do Codex. Pergunte qual. Eu mesmo faço o login no terminal (claude ou codex login) — não peça token, não abra arquivos de credencial.
+
+Depois do meu login, rode node kit/scripts/conferir-resposta.mjs e me mostre se a resposta veio de verdade. Abra o app com kit/iniciar.sh --instancia teste (uma instância descartável) e me diga onde ficam os dados dela.
+
+No fim, entregue: sistema, versão do Node, testes que passaram, se a resposta real veio, comando para abrir e o que NÃO foi testado. Não diga que algo funciona sem ter testado.</div>
+  </div>
+
+  <div class="pbox">
+    <div class="top"><h3>2 · Instalar na VPS</h3><button class="copy" data-alvo="p2">Copiar</button></div>
+    <p class="quando">Rode no servidor, já conectado por SSH. Prepara tudo, liga a instância e confere que as portas estão fechadas.</p>
+    <div class="prompt" id="p2">Quero o Time de Bots numa VPS Ubuntu 24.04 ou mais nova, ligado 24 h e acessado só por túnel SSH.
+
+Eu já entrei no servidor por SSH com um usuário comum que tem sudo (não root). Clone https://github.com/inematds/time-de-bots.git em ~/time-de-bots (o serviço espera esse caminho). Leia README.md e todos os arquivos de kit/vps/ antes de agir.
+
+Rode kit/vps/instalar-vps.sh e me mostre o resultado. Não abra nenhuma porta no firewall e não troque nada para 0.0.0.0: VNC e navegador devem ficar em 127.0.0.1.
+
+Pare e me peça para fazer o login da conta (claude, ou codex login --device-auth). Eu faço; não peça token.
+
+Depois ligue a primeira instância com kit/vps/nova-instancia.sh principal 1 e me mostre o comando de túnel que ele imprime. Confira com ss -ltn que as portas estão só em 127.0.0.1 e com systemctl --user is-active que o serviço está ativo.
+
+No fim, entregue: comando de túnel, endereço para abrir no navegador, como ligar um segundo time (nova-instancia.sh trabalho 2), como desligar (systemctl --user disable --now time-de-bots@principal) e o que não foi testado.</div>
+  </div>
+
+  <div class="pbox">
+    <div class="top"><h3>3 · Montar o meu primeiro time</h3><button class="copy" data-alvo="p3">Copiar</button></div>
+    <p class="quando">Com o app já aberto: o assistente pergunta sobre o seu trabalho e propõe 3 bots prontos para copiar.</p>
+    <div class="prompt" id="p3">Me ajude a montar meu primeiro time de bots no Time de Bots (o app já está aberto e conectado à minha assinatura).
+
+Primeiro me pergunte: qual é o meu trabalho e quais 3 tarefas repetidas eu mais queria tirar das minhas costas.
+
+Com as respostas, proponha 3 bots. Para cada um: nome, papel em uma frase, instruções (até 8 linhas, em português, dizendo o que faz, o que não faz e o formato da resposta) e, se fizer sentido, uma tarefa agendada (ex.: dias úteis às 8h, "resumo do que preciso fazer hoje").
+
+Me entregue em blocos prontos para eu copiar no app (botão + para criar bot; instruções editáveis depois). Diga também como chamar os três juntos numa conversa em grupo (@nome ou @everyone).
+
+Não invente integrações que eu não tenho. Tarefas agendadas só rodam com o app aberto (ou na VPS).</div>
+  </div>
+</div></section>
+
+<section id="testado"><div class="wrap">
+  <span class="chip">O que foi testado</span>
+  <h2>Testado em 09/11/2026</h2>
+  <p class="sub">Só o que rodou de verdade. O que não está aqui não foi conferido.</p>
+  <div class="tblw"><table class="tbl">
+    <thead><tr><th>Teste</th><th>Resultado</th></tr></thead>
+    <tbody>
+      <tr><td>Testes do app (<code>npm test</code>) no Linux ARM64</td><td class="ok">193 de 193</td></tr>
+      <tr><td>Testes do app numa VPS Ubuntu 24.04 x86_64 (4 vCPU, 15 GB)</td><td class="ok">193 de 193</td></tr>
+      <tr><td>Resposta real pela assinatura Claude (modelo haiku)</td><td class="ok">recebida em 3,8 s, login <code>claude.ai</code></td></tr>
+      <tr><td>Duas instâncias ao mesmo tempo no computador</td><td class="ok">abertas, dados separados</td></tr>
+      <tr><td>Duas instâncias como serviço na VPS</td><td class="ok">ativas, portas só em 127.0.0.1</td></tr>
+      <tr><td>Resposta real na VPS, Codex, voz, navegador na nuvem, Composio</td><td class="no">não testados</td></tr>
+    </tbody>
+  </table></div>
+  <p class="nota">Os testes acima foram feitos no Linux. O kit tem suporte ao Mac, mas o Mac ainda não foi testado.</p>
+</div></section>
+
+<section id="cuidados"><div class="wrap">
+  <span class="chip">Cuidados</span>
+  <h2>Antes de usar no dia a dia</h2>
+  <p class="sub">Software experimental, sem garantia. Teste primeiro com uma instância descartável.</p>
+  <div class="grid g3">
+    <div class="card"><h3>🔑 Só assinatura</h3><p>O app só aceita o login <code>claude.ai</code> do Claude Code ou o login do Codex. O <code>kit/iniciar.sh</code> remove <code>ANTHROPIC_API_KEY</code>, <code>OPENAI_API_KEY</code> e <code>CODEX_API_KEY</code> do ambiente, para nada ir para cobrança por API sem você ver.</p></div>
+    <div class="card"><h3>📏 Limites continuam</h3><p>A assinatura tem limites de uso e termos do provedor. O painel não aumenta isso: vários bots usam a mesma cota.</p></div>
+    <div class="card"><h3>🙋 O login é seu</h3><p>Nunca cole token ou senha no chat do assistente. O login é feito por você, no terminal.</p></div>
+    <div class="card"><h3>🔒 VPS fechada</h3><p>VNC e navegador ouvem só em <code>127.0.0.1</code>. Você entra por túnel SSH; nada fica aberto para a internet.</p></div>
+    <div class="card"><h3>🧱 Sandbox no Linux</h3><p>O sandbox do Electron é uma proteção que separa as telas do app do resto do sistema; sem ele o app abre igual, só com menos proteção. Para ligar (uma vez, depois de cada <code>npm ci</code>), com sudo:</p><pre><span class="k">cd app/node_modules/electron/dist</span>
+<span class="k">sudo chown root:root chrome-sandbox</span>
+<span class="k">sudo chmod 4755 chrome-sandbox</span></pre></div>
+    <div class="card"><h3>💾 Backup</h3><p>Antes de atualizar, copie a pasta de dados <code>~/.local/share/time-de-bots/</code>. Lá ficam bots, conversas e memória de cada time.</p></div>
+  </div>
+</div></section>
+
+<section id="faq" class="faq"><div class="wrap">
+  <span class="chip">FAQ</span>
+  <h2>Perguntas rápidas</h2>
+  <p class="sub">O essencial em poucas linhas.</p>
+  <details><summary>Preciso de chave de API ou pagar por uso?</summary><p>Não. O app responde pela sua assinatura do Claude ou do Codex, com o login do programa oficial. As chaves de API são tiradas do ambiente antes de abrir.</p></details>
+  <details><summary>As tarefas agendadas rodam com o computador desligado?</summary><p>Não. Elas só rodam com o app aberto. Para ficarem ligadas 24 h, use o modo VPS.</p></details>
+  <details><summary>Posso ter mais de um time?</summary><p>Sim. Cada <code>--instancia</code> (no computador) ou cada <code>nova-instancia.sh</code> (na VPS) é um time separado, com dados próprios.</p></details>
+  <details><summary>Como chamo vários bots numa conversa?</summary><p>Numa conversa em grupo, chame pelo nome com <code>@nome</code>, ou todos com <code>@everyone</code>.</p></details>
+  <details><summary>O Codex funciona?</summary><p>O Codex é uma das opções em Settings → AI subscription, mas a resposta real pelo Codex ainda não foi testada (veja a tabela). O teste de resposta do kit confere só o Claude.</p></details>
+  <details><summary>Por que aparece "sandbox do Electron desligado"?</summary><p>No Linux, o sandbox precisa de um ajuste com sudo. Sem ele o app abre igual, com menos isolamento. Os comandos estão em Cuidados.</p></details>
+</div></section>
+
+<footer>
+  <div class="wrap">
+    <div class="pill">Electron</div><div class="pill">Node.js 22+</div><div class="pill">Claude Code · Codex</div><div class="pill">noVNC · SSH</div>
+    <p style="margin-top:18px">Time de Bots · kit, guia e prompts sob licença MIT; o app em <code>app/</code> tem a própria licença MIT ·
+      <a href="https://github.com/inematds/time-de-bots">inematds/time-de-bots</a> ·
+      <a href="https://inema.club">INEMA.CLUB</a></p>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var KEY='time-de-bots-theme';
+    var b=document.body, t=document.getElementById('themeToggle');
+    try{ if(localStorage.getItem(KEY)==='light'){ b.classList.add('light'); t.textContent='☀️'; } }catch(e){}
+    t.addEventListener('click',function(){
+      var light=b.classList.toggle('light');
+      t.textContent=light?'☀️':'🌙';
+      try{ localStorage.setItem(KEY, light?'light':'dark'); }catch(e){}
+    });
+    var MSG_OK='Copiado', MSG_ORIG='Copiar';
+    // botão de copiar em cada bloco de comando (copia sem os comentários)
+    document.querySelectorAll('pre').forEach(function(pre){
+      var b2=document.createElement('button'); b2.className='copy cpre'; b2.type='button'; b2.textContent=MSG_ORIG;
+      b2._txt=function(){ var c=document.importNode(pre,true); c.querySelectorAll('.c').forEach(function(s){s.remove();});
+        return c.textContent.split('\n').map(function(l){return l.replace(/\s+$/,'');}).filter(function(l){return l;}).join('\n'); };
+      pre.parentNode.insertBefore(b2, pre.nextSibling);
+    });
+    document.querySelectorAll('.copy').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var txt=btn._txt?btn._txt():document.getElementById(btn.getAttribute('data-alvo')).textContent;
+        function feito(){ btn.textContent=MSG_OK; btn.classList.add('feito'); setTimeout(function(){ btn.textContent=MSG_ORIG; btn.classList.remove('feito'); },1600); }
+        if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(feito,function(){ velho(txt); feito(); }); }
+        else { velho(txt); feito(); }
+      });
+    });
+    function velho(txt){ var a=document.createElement('textarea'); a.value=txt; a.style.position='fixed'; a.style.opacity='0'; document.body.appendChild(a); a.select(); try{document.execCommand('copy');}catch(e){} a.remove(); }
+  })();
+</script>
+</body>
+</html>

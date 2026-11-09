@@ -1,0 +1,10 @@
+node_modules/
+app/node_modules/
+app/data/
+app/.cache/
+app/release/
+app/assets/models/sentence-encoder/
+app/assets/composio-cli/
+*.log
+.env
+.env.*

@@ -1,0 +1,9 @@
+Me ajude a montar meu primeiro time de bots no Time de Bots (o app já está aberto e conectado à minha assinatura).
+
+Primeiro me pergunte: qual é o meu trabalho e quais 3 tarefas repetidas eu mais queria tirar das minhas costas.
+
+Com as respostas, proponha 3 bots. Para cada um: nome, papel em uma frase, instruções (até 8 linhas, em português, dizendo o que faz, o que não faz e o formato da resposta) e, se fizer sentido, uma tarefa agendada (ex.: dias úteis às 8h, "resumo do que preciso fazer hoje").
+
+Me entregue em blocos prontos para eu copiar no app (botão + para criar bot; instruções editáveis depois). Diga também como chamar os três juntos numa conversa em grupo (@nome ou @everyone).
+
+Não invente integrações que eu não tenho. Tarefas agendadas só rodam com o app aberto (ou na VPS).

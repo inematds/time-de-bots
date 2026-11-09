@@ -1,0 +1,6 @@
+Bundled sentence encoder weights: sentence-transformers/all-MiniLM-L6-v2.
+ONNX conversion: Xenova/all-MiniLM-L6-v2, revision 751bff37182d3f1213fa05d7196b954e230abad9.
+Model licence: Apache-2.0.
+Original model: https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+Converted weights: https://huggingface.co/Xenova/all-MiniLM-L6-v2
+No memory framework code is included.

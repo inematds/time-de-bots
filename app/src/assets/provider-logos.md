@@ -1,0 +1,1 @@
+Provider identity marks: Claude and OpenAI, vendored from Simple Icons (CC0 icon code). Claude: https://github.com/simple-icons/simple-icons/blob/develop/icons/claude.svg ; OpenAI: https://github.com/simple-icons/simple-icons/blob/14.0.0/icons/openai.svg . Trademarks belong to their respective owners; used only to identify the connected service.

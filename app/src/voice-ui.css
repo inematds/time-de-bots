@@ -1,0 +1,15 @@
+#voice-inline{display:flex;align-items:center;gap:10px;flex:1;min-width:0;min-height:28px;padding:0 2px 0 5px}
+#voice-status{flex:none;font-size:13px;line-height:20px;font-weight:450;color:var(--text)}
+#voice-wave{width:96px;height:24px;max-width:28%;flex:none;color:#d98375}
+#voice-timer{font-variant-numeric:tabular-nums;font-size:12px;line-height:20px;color:var(--muted)}
+#voice-cancel{display:grid;place-items:center;flex:none;width:24px;height:24px;margin-left:auto;padding:0;border-radius:50%;color:var(--muted)}
+#voice-cancel:hover{color:var(--text);background:var(--hover)}
+#voice-cancel svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;pointer-events:none}
+#voice-progress{width:13px;height:13px;border:1.5px solid var(--line);border-top-color:var(--muted);border-radius:50%;animation:voice-progress 800ms linear infinite;flex:none}
+#microphone.is-recording{background:#a44339;color:#fff;box-shadow:none}
+#microphone svg{width:16px;height:16px}
+#composer[data-voice=recording]{border-color:color-mix(in srgb,#c66f60 55%,var(--line))}
+#composer[data-voice=recording] #voice-status::before{content:'';display:inline-block;width:5px;height:5px;margin:0 7px 2px 0;border-radius:50%;background:#d98375}
+@keyframes voice-progress{to{transform:rotate(360deg)}}
+@media(max-width:710px){#composer[data-voice]:not([data-voice=idle]) #microphone{display:grid}#voice-inline{gap:7px}#voice-wave{width:56px;max-width:21%}}
+@media(prefers-reduced-motion:reduce){#voice-progress{animation:none}}

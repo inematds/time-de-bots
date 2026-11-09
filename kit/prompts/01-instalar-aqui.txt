@@ -1,0 +1,9 @@
+Quero instalar e conferir o Time de Bots neste computador. O kit está na pasta atual (se não estiver, clone https://github.com/inematds/time-de-bots.git numa pasta nova).
+
+Leia README.md, kit/instalar.sh e kit/iniciar.sh antes de agir. Descubra meu sistema e arquitetura (uname -sm). Confira Node.js 22+ e npm; se faltar, me diga como instalar e espere.
+
+Rode kit/instalar.sh e me mostre quantos testes passaram. Não use chave de API: quero usar minha assinatura do Claude ou do Codex. Pergunte qual. Eu mesmo faço o login no terminal (claude ou codex login) — não peça token, não abra arquivos de credencial.
+
+Depois do meu login, rode node kit/scripts/conferir-resposta.mjs e me mostre se a resposta veio de verdade. Abra o app com kit/iniciar.sh --instancia teste (uma instância descartável) e me diga onde ficam os dados dela.
+
+No fim, entregue: sistema, versão do Node, testes que passaram, se a resposta real veio, comando para abrir e o que NÃO foi testado. Não diga que algo funciona sem ter testado.

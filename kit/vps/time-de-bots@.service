@@ -1,0 +1,15 @@
+[Unit]
+Description=Time de Bots — instância %i (tela virtual + navegador por túnel SSH)
+After=network-online.target
+
+[Service]
+Type=simple
+ExecStart=%h/time-de-bots/kit/vps/sessao.sh %i
+Restart=on-failure
+RestartSec=10
+# Teto de memória por instância (o app + Chromium usam ~0,5–1 GB).
+MemoryMax=2G
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=default.target
