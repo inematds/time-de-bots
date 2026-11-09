@@ -376,6 +376,7 @@ Não invente integrações que eu não tenho. Tarefas agendadas só rodam com o 
     </tbody>
   </table></div>
   <p class="nota">Os testes acima foram feitos no Linux. O kit tem suporte ao Mac, mas o Mac ainda não foi testado.</p>
+  <p class="nota"><strong>Composio</strong> é um serviço opcional que liga os bots a outros apps seus (e-mail, agenda, planilhas), cada um autorizado por você, com conta e chave da própria Composio. <strong>Navegador na nuvem</strong> é um computador separado, que você hospeda, onde o bot navega na web enquanto você assiste e pode assumir o controle. Os dois vêm desligados.</p>
 </div></section>
 
 <section id="cuidados"><div class="wrap">
@@ -404,6 +405,8 @@ Não invente integrações que eu não tenho. Tarefas agendadas só rodam com o 
   <details><summary>Como chamo vários bots numa conversa?</summary><p>Numa conversa em grupo, chame pelo nome com <code>@nome</code>, ou todos com <code>@everyone</code>.</p></details>
   <details><summary>O Codex funciona?</summary><p>O Codex é uma das opções em Settings → AI subscription, mas a resposta real pelo Codex ainda não foi testada (veja a tabela). O teste de resposta do kit confere só o Claude.</p></details>
   <details><summary>Por que aparece "sandbox do Electron desligado"?</summary><p>No Linux, o sandbox precisa de um ajuste com sudo. Sem ele o app abre igual, com menos isolamento. Os comandos estão em Cuidados.</p></details>
+  <details><summary>Meu servidor usa outra porta SSH ou uma chave própria. Como faço o túnel?</summary><p>Acrescente a porta e a chave no mesmo comando: <code>ssh -i ~/.ssh/minha-chave -p 2222 -N -L 6081:127.0.0.1:6081 usuario@servidor</code>. Para o segundo time, outra porta: <code>-L 6082:127.0.0.1:6082</code>. Se a porta 6081 já estiver em uso no seu computador, troque só o primeiro número (ex.: <code>-L 7081:127.0.0.1:6081</code>) e abra <code>http://localhost:7081/vnc.html</code>.</p></details>
+  <details><summary>O <code>conferir-resposta.mjs</code> diz "Login do Claude: NÃO". E agora?</summary><p>Rode <code>claude</code> no mesmo usuário que abre o app e entre com a sua conta Claude (não com chave de API). Confira com <code>claude auth status</code>: precisa aparecer logado pelo <code>claude.ai</code>. Se o Claude Code não estiver instalado, instale pelo site oficial. Na VPS, depois do login, reinicie o time: <code>systemctl --user restart time-de-bots@principal</code>.</p></details>
 </div></section>
 
 <footer>

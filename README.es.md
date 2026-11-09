@@ -76,6 +76,12 @@ Quién lo hace: 🧠 tú en una sesión con el asistente · ⚙️ script del ki
   `~/.local/share/time-de-bots/` antes de actualizar.
 - En Linux, el sandbox de Electron necesita un ajuste con sudo: [`kit/COMO-LIGAR-SANDBOX.md`](kit/COMO-LIGAR-SANDBOX.md) (en portugués).
 
+## Dudas comunes
+
+- **Composio y navegador en la nube:** Composio conecta los bots con tus otras apps (correo, agenda, hojas de cálculo), con cuenta y clave de Composio; el navegador en la nube es una computadora aparte, alojada por ti, donde el bot navega mientras miras. Los dos vienen apagados.
+- **Otro puerto SSH o clave propia:** `ssh -i ~/.ssh/minha-chave -p 2222 -N -L 6081:127.0.0.1:6081 usuario@servidor`. Puerto 6081 ocupado en tu computadora: `-L 7081:127.0.0.1:6081` y abre `http://localhost:7081/vnc.html`.
+- **"Login do Claude: NÃO" en `conferir-resposta.mjs`:** ejecuta `claude` con el mismo usuario que abre la app e inicia sesión con tu cuenta Claude (no clave de API); comprueba con `claude auth status`. En la VPS, tras iniciar sesión: `systemctl --user restart time-de-bots@principal`.
+
 ## Licencia
 
 Kit, guía y prompts de INEMA: [MIT](LICENSE). La app en `app/` tiene su propia licencia MIT y avisos de terceros

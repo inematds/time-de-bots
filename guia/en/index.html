@@ -376,6 +376,7 @@ Don't make up integrations I don't have. Scheduled tasks only run with the app o
     </tbody>
   </table></div>
   <p class="nota">The tests above were run on Linux. The kit supports the Mac, but the Mac has not been tested yet.</p>
+  <p class="nota"><strong>Composio</strong> is an optional service that connects the bots to your other apps (email, calendar, spreadsheets), each one authorized by you, with a Composio account and key. <strong>Cloud browser</strong> is a separate computer, hosted by you, where the bot browses the web while you watch and can take over. Both come turned off.</p>
 </div></section>
 
 <section id="cuidados"><div class="wrap">
@@ -404,6 +405,8 @@ Don't make up integrations I don't have. Scheduled tasks only run with the app o
   <details><summary>How do I call several bots in one chat?</summary><p>In a group chat, call them by name with <code>@name</code>, or all of them with <code>@everyone</code>.</p></details>
   <details><summary>Does Codex work?</summary><p>Codex is one of the options in Settings → AI subscription, but the real reply through Codex hasn't been tested yet (see the table). The kit's reply test only checks Claude.</p></details>
   <details><summary>Why does "Electron sandbox disabled" show up?</summary><p>On Linux, the sandbox needs a tweak with sudo. Without it the app opens the same way, with less isolation. The commands are in Cautions.</p></details>
+  <details><summary>My server uses another SSH port or its own key. How do I open the tunnel?</summary><p>Add the port and the key to the same command: <code>ssh -i ~/.ssh/minha-chave -p 2222 -N -L 6081:127.0.0.1:6081 usuario@servidor</code>. For the second team, another port: <code>-L 6082:127.0.0.1:6082</code>. If port 6081 is already in use on your computer, change only the first number (e.g. <code>-L 7081:127.0.0.1:6081</code>) and open <code>http://localhost:7081/vnc.html</code>.</p></details>
+  <details><summary><code>conferir-resposta.mjs</code> says "Login do Claude: NÃO". What now?</summary><p>Run <code>claude</code> as the same user that opens the app and sign in with your Claude account (not an API key). Check with <code>claude auth status</code>: it must show you signed in through <code>claude.ai</code>. If Claude Code is not installed, install it from the official site. On the VPS, after signing in, restart the team: <code>systemctl --user restart time-de-bots@principal</code>.</p></details>
 </div></section>
 
 <footer>

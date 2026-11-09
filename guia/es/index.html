@@ -376,6 +376,7 @@ No inventes integraciones que no tengo. Las tareas programadas solo corren con l
     </tbody>
   </table></div>
   <p class="nota">Las pruebas de arriba se hicieron en Linux. El kit tiene soporte para Mac, pero Mac todavía no se probó.</p>
+  <p class="nota"><strong>Composio</strong> es un servicio opcional que conecta los bots con tus otras apps (correo, agenda, hojas de cálculo), cada una autorizada por ti, con cuenta y clave de Composio. <strong>Navegador en la nube</strong> es una computadora aparte, alojada por ti, donde el bot navega por la web mientras miras y puedes tomar el control. Los dos vienen apagados.</p>
 </div></section>
 
 <section id="cuidados"><div class="wrap">
@@ -404,6 +405,8 @@ No inventes integraciones que no tengo. Las tareas programadas solo corren con l
   <details><summary>¿Cómo llamo a varios bots en una conversación?</summary><p>En una conversación en grupo, llámalos por nombre con <code>@nombre</code>, o a todos con <code>@everyone</code>.</p></details>
   <details><summary>¿Codex funciona?</summary><p>Codex es una de las opciones en Settings → AI subscription, pero la respuesta real con Codex todavía no se probó (mira la tabla). La prueba de respuesta del kit verifica solo Claude.</p></details>
   <details><summary>¿Por qué aparece "sandbox de Electron desactivado"?</summary><p>En Linux, el sandbox necesita un ajuste con sudo. Sin él la app abre igual, con menos aislamiento. Los comandos están en Precauciones.</p></details>
+  <details><summary>Mi servidor usa otro puerto SSH o una clave propia. ¿Cómo abro el túnel?</summary><p>Agrega el puerto y la clave en el mismo comando: <code>ssh -i ~/.ssh/minha-chave -p 2222 -N -L 6081:127.0.0.1:6081 usuario@servidor</code>. Para el segundo equipo, otro puerto: <code>-L 6082:127.0.0.1:6082</code>. Si el puerto 6081 ya está en uso en tu computadora, cambia solo el primer número (ej.: <code>-L 7081:127.0.0.1:6081</code>) y abre <code>http://localhost:7081/vnc.html</code>.</p></details>
+  <details><summary><code>conferir-resposta.mjs</code> dice "Login do Claude: NÃO". ¿Y ahora?</summary><p>Ejecuta <code>claude</code> con el mismo usuario que abre la app e inicia sesión con tu cuenta Claude (no con clave de API). Comprueba con <code>claude auth status</code>: debe aparecer la sesión iniciada por <code>claude.ai</code>. Si Claude Code no está instalado, instálalo desde el sitio oficial. En la VPS, tras iniciar sesión, reinicia el equipo: <code>systemctl --user restart time-de-bots@principal</code>.</p></details>
 </div></section>
 
 <footer>
