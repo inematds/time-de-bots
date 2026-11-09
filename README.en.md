@@ -49,7 +49,7 @@ Who does it: 🧠 you in a session with the assistant · ⚙️ kit script · �
 | 6 | In Settings → AI subscription, choose Claude or Codex and create the first bot | in the app | 🧠 |
 | 7 | (Optional) another separate team | `kit/iniciar.sh --instancia trabalho` | ⚙️ |
 | 8 | (VPS) prepare the server, with a regular user that has sudo | `kit/vps/instalar-vps.sh` | ⚙️ |
-| 9 | (VPS) log in to the account over SSH | `claude` or `codex login --device-auth` | 🧠 |
+| 9 | (VPS) install Claude Code or Codex on the server and log in to the account over SSH | `claude` or `codex login --device-auth` | 🧠 |
 | 10 | (VPS) start an instance | `kit/vps/nova-instancia.sh principal 1` | ⚙️ |
 | 11 | (VPS) open it in the browser through the tunnel | `ssh -N -L 6081:127.0.0.1:6081 usuario@servidor` → `http://localhost:6081/vnc.html` | 🧠 |
 | 12 | Rather have the assistant do 2–11 for you | [`kit/prompts/`](kit/prompts/) (in Portuguese) | 🤖 |
